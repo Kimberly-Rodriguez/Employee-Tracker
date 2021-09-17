@@ -1,0 +1,26 @@
+{
+  "name": "Employee-Tracker",
+  "version": "1.0.0",
+  "description": "# Unit 12: SQL",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kimberly-Rodriguez/Employee-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kimberly-Rodriguez/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/Kimberly-Rodriguez/Employee-Tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.1.5",
+    "mysql2": "^2.3.0"
+  }
+}
