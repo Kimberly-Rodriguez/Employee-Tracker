@@ -11,3 +11,4 @@ VALUES ("Sonia", "Sotomayor", 01, 1),
 ("Selena", "Quintanilla", 02, 3),
 ("Frida", "Kahlo", 03, 4),
 ("Celia", "Cruz", 04, 5); 
+ 
