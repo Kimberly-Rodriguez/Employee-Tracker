@@ -16,7 +16,13 @@ ON r.id = e.role_id
 JOIN department d
 ON  d.id = r.department_id
 
-INSERT INTO department (name) VALUES ?
+INSERT INTO department (name) VALUES ('testtitle');
+
+INSERT INTO role (title) VALUES (?);
+
+INSERT INTO employee () VALUES;
+
+UPDATE role SET employee = ? WHERE id = ?;
 
 
   -- -- OLD CODE

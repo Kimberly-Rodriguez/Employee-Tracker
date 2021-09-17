@@ -13,20 +13,18 @@ app.use(express.json());
 const db = mysql.createConnection(
   {
     host: 'localhost',
-    // MySQL username,
     user: 'root',
-    // Add MySQL password here
     password: 'password',
     database: 'tracker_db'
   },
-  console.log(`Connected to the movies_db database.`)
+  console.log(`Connected to the tracker_db database.`)
 );
 
-// Create a movie
-app.post('/api/new-movies', (req, res) => {
-  const newMovie = req.body.title;
-  console.log(newMovie);
-  const sql = `INSERT INTO movies (title) VALUES (?)`;
+// Create 
+app.post('/api/role', (req, res) => {
+  const addRole = req.body.title;
+  console.log(addRole);
+  const sql = `INSERT INTO role (title) VALUES (?)`;
 
   db.query(sql, newMovie, (err, rows) => {
     if (err) {
@@ -40,7 +38,7 @@ app.post('/api/new-movies', (req, res) => {
   });
 });
 
-// Read all movies
+// Read 
 app.get('/api/movies', (req, res) => {
   const sql = `SELECT * FROM movies`;
   
@@ -56,7 +54,7 @@ app.get('/api/movies', (req, res) => {
   });
 });
 
-// TODO: Delete a movie
+// Delete a movie
 app.delete('/api/movies/:id', (req, res) => {
   const sql = `DELETE FROM movies WHERE id = ?;`;
   const returnedId = req.params.id
@@ -74,7 +72,7 @@ app.delete('/api/movies/:id', (req, res) => {
   });
 });
 
-// TODO: Read list of all reviews and associated movie name using LEFT JOIN
+//  Read list of all reviews and associated movie name using LEFT JOIN
 app.get('/api/movies_reviews', (req, res) => {
   const sql = `SELECT movies.title AS Title, reviews.review AS Reviews FROM reviews JOIN movies ON reviews.movies_id = movies.id;`;
   
@@ -90,7 +88,7 @@ app.get('/api/movies_reviews', (req, res) => {
   });
 });
 
-// TODO: Update review name
+// Update review name
 app.put('/api/reviews', (req, res) => {
   const sql = `UPDATE reviews SET review = ? WHERE id = ?`;
   const {review, id} = req.body;

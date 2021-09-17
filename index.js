@@ -1,12 +1,24 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Employee = require('./lib/Employee');
+require('console.table');
+// Import and require mysql2
+const mysql = require('mysql2');
 
-//independent js document for HTML file
-// const generateHtml = require('./src/generateHtml.js');
+// Connect to database
+const db = mysql.createConnection(
+  {
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'tracker_db'
+  },
+  console.log(`Connected to the tracker_db database.`)
+);
 
-// Empty array that holds all team members: 
-const teamData = [];
+
+// What is the best way to connce the server.js w/ index.js
+// const server = require('server.js');
+
 
 // manager function
 const init = () => {
@@ -39,7 +51,7 @@ const init = () => {
         : (response.choice === 'Add Department') ? AddDepartment()
       
         //Edit format below:
-        : fs.writeFile('./dist/index.html', generateHtml(teamData), (err) =>
+        : fs.writeFile('./dist/', generateHtml(teamData), (err) =>
           err ? console.log(err) : console.log('Success!'))
           });
 }
@@ -47,32 +59,35 @@ const init = () => {
 
 // View All Employees function
 const ViewAllEmployees = () => {
-  inquirer
-.prompt([
-  {
-      // table of all Employees
-  },
-])
+// Read 
+const sql = `SELECT * FROM employee`;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+       return;
+    }
+    console.table(rows);
+    init();
+});
 }
 
 // Add Employee function
 const AddEmployee = () => {
-  inquirer
-    .prompt([
-      {
-        // Add Employee
-      },
-    ])
-    // .then((response) => {
-    //   const internData = new Intern (response.name, response.id, response.email, response.school)
-    // //push to my teamData array 
-    //   teamData.push(internData);
-      
-    //   return (response.role === 'Engineer') ? createNewEngineer()
-    //   : (response.role === 'Intern') ? createNewIntern()
-    //   : fs.writeFile('./dist/index.html', generateHtml(teamData), (err) =>
-    //     err ? console.log(err) : console.log('Success!'))
-    //   });
+  const sql = `INSERT INTO movies (e)
+    VALUES (?)`;
+  const params = [body.movie_name];
+  // 31 - 40 is more or less the same just the params might change
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data: body // this pases the info you are posting 
+    });
+  });
+ 
   }
 
   // Up date Employee Role Function
