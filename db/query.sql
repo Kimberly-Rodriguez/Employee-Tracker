@@ -19,22 +19,22 @@ ON  d.id = r.department_id
 INSERT INTO department (name) VALUES ?
 
 
--- OLD CODE
--- Query to Render all employee --
-SELECT * FROM role;
-SELECT * FROM employee;
+  -- -- OLD CODE
+  -- -- Query to Render all employee --
+  -- SELECT * FROM role;
+  -- SELECT * FROM employee;
 
 
--- Query to Insert --
-INSERT INTO role (title, salary, department_id) VALUES (title, salary, department_id);
-INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (first_name, last_name, role_id, manager_id);
+  -- -- Query to Insert --
+  -- INSERT INTO role (title, salary, department_id) VALUES (title, salary, department_id);
+  -- INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (first_name, last_name, role_id, manager_id);
 
--- Query to Update  --
-UPDATE role SET employee = ? WHERE id = ?;
+  -- -- Query to Update  --
+  -- UPDATE role SET employee = ? WHERE id = ?;
 
--- Query to Delete a  --
-DELETE FROM role WHERE id = ?;
-DELETE FROM employee WHERE id = ?;
+  -- -- Query to Delete a  --
+  -- DELETE FROM role WHERE id = ?;
+  -- DELETE FROM employee WHERE id = ?;
 
--- Query to Render Movies w/ their Reviews --
-SELECT role.title AS Title, employee.employee AS Role FROM employee JOIN role ON role.employee_id = role.id;
+  -- -- Query to Render Movies w/ their Reviews --
+  -- SELECT role.title AS Title, employee.employee AS Role FROM employee JOIN role ON role.employee_id = role.id;

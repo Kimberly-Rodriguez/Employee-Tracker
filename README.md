@@ -1,6 +1,40 @@
 # Employee-Tracker
 
-# Unit 12: SQL
+## Table of Contents
+
+* [Description](#description)
+* [Instalation](#instalation)
+* [Tools](#tools)
+* [Contact](#contact)
+* [License](#license)
+* [Acknowledgements](#acknowledgements)
+
+## Description
+
+To generate a webpage that displays a team's basic information. This webpage is created by the manager so she/he has easy access to their team's emails and GitHub profiles. 
+
+## Instalation
+
+For installation and deployment, please click [here](https://kimberly-rodriguez.github.io/Employee-Tracker/). The GitHub link is [here](https://github.com/Kimberly-Rodriguez/Employee-Tracker).
+
+
+* Clone the repo (please reference the links below).
+```md 
+https://github.com/Kimberly-Rodriguez/Employee-Tracker
+```
+
+[video link](https://drive.google.com/file/d/14d46wtvWzeU5oL6KJFmrU3PTFCZPm0o4/view)
+
+
+## Tools
+
+This project was built using the [Jest](https://www.npmjs.com/package/jest) for running the unit tests and [Inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user. The application will be invoked by using the following command:
+
+```bash
+node index.js
+```
+///
+
 
 ## Overview
 
@@ -126,5 +160,19 @@ Refer to these resources for additional information about topics covered in this
   
   * 📖 [npm documentation on MySQL2](https://www.npmjs.com/package/mysql2)
  
----
-© 2021 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
+ ///
+
+## Contact
+
+If you have any questions about my work OR wish to collaborate in the future please contact me via email: krodriguez.ucla@gmail.com OR feel free to connect via GitHub: [Kimberly-Rodriguez](https://github.com/Kimberly-Rodriguez).
+
+## License 
+
+Licensed under the [MIT License](LICENSE).
+
+## Acknowledgements
+[UCLA Extension Coding Bootcamp](https://bootcamp.uclaextension.edu/coding/)
+
+
+
+
