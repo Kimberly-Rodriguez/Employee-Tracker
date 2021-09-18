@@ -44,5 +44,5 @@ UPDATE role SET employee = ? WHERE id = ?;
   -- DELETE FROM role WHERE id = ?;
   -- DELETE FROM employee WHERE id = ?;
 
-  -- -- Query to Render Movies w/ their Reviews --
+  -- -- Query to Render employee w/ their roles --
   -- SELECT role.title AS Title, employee.employee AS Role FROM employee JOIN role ON role.employee_id = role.id;

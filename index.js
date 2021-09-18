@@ -98,13 +98,8 @@ const AddEmployee = () => {
         name: "role_id",
       },
       {
-        type: "list",
+        type: "input",
         message: "Plase add manager id/name",
-        choices: [
-          "1: Sonia Sotomayor",
-          "2: Selena Quintanilla",
-          "Null: Not applicable",
-        ],
         name: "manager_id",
       },
     ])
@@ -166,9 +161,8 @@ const AddRole = () => {
         name: "salary",
       },
       {
-        type: "list",
+        type: "input",
         message: "Please add a department id",
-        // what to do if the department id is differnt from 01,02,03
         name: "department_id",
       },
     ])
@@ -186,10 +180,7 @@ const AddRole = () => {
 const ViewAllDepartments = () => {
   const sql = `SELECT * FROM department`;
   db.query(sql, (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
+    if (err) throw err;
     console.table(rows);
     init();
   });
