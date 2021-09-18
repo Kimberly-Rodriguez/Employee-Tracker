@@ -32,11 +32,13 @@ UPDATE role SET employee = ? WHERE id = ?;
 
 
   -- -- Query to Insert --
+  INSERT INTO department e (e.title, e.salary, e.id) VALUES (?)
   -- INSERT INTO role (title, salary, department_id) VALUES (title, salary, department_id);
   -- INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (first_name, last_name, role_id, manager_id);
 
   -- -- Query to Update  --
   -- UPDATE role SET employee = ? WHERE id = ?;
+  UPDATE employee SET role_id = ? WHERE id = ?;
 
   -- -- Query to Delete a  --
   -- DELETE FROM role WHERE id = ?;
