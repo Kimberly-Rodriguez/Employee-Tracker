@@ -17,4 +17,3 @@ VALUES ("Sonia", "Sotomayor", 01, NULL),
        ("Selena", "Quintanilla", 02, NULL),
        ("Frida", "Kahlo", 03, 02),
        ("Celia", "Cruz", 04, NULL); 
- 

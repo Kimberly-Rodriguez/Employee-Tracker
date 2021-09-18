@@ -14,12 +14,7 @@ const db = mysql.createConnection(
   console.log(`Connected to the tracker_db database.`)
 );
 
-
-// What is the best way to connce the server.js w/ index.js
-// const server = require('server.js');
-
-
-// manager function
+// Main prompt function
 const init = () => {
   inquirer
     .prompt([
@@ -40,7 +35,7 @@ const init = () => {
       switch (response.choice) {
         case 'View All Employees':
         ViewAllEmployees()
-      break;
+       break;
         case 'Add Employee':
          AddEmployee()
        break;
@@ -61,9 +56,7 @@ const init = () => {
        break;
      }
     });
-
   }
-  
 
 // View All Employees function
 const ViewAllEmployees = () => {
@@ -79,39 +72,63 @@ const sql = `SELECT * FROM employee`;
 });
 }
 
-// asking what is the employ name 
+// AddEmployee Function
+const AddEmployee = () => {
+  inquirer
+    .prompt([
+      {
+          type: "input",
+          message: "Plase add employee's first name",
+          name: "first_name",
+      },
+      {
+        type: "input",
+        message: "Plase add employee's last name",
+        name: "last_name",
+      },
+      {
+        type: "list",
+        message: "Plase add employee's role id",
+        choices: "01: Engineering, 02: Law , 03: Accounting",
+        name: "role_id",
+      },
+      {
+        type: "list",
+        message: "Plase add manager id/name",
+        choices: " 01: Sonia Sotomayor, 02: Selena Quintanilla , Null: Not applicable",
+        name: "manager_id",
+    },
+      ])
 
-
-
-// then call add employe the answers from this funtion
-
-// Add Employee function
-const AddEmployee = (answer) => {
-  const sql = `INSERT INTO employee e (e.first_name, e.last_name, e.role_id, e.manager_id)
-    VALUES (?)`;
-  const params = [answer.first_name, ]// whatever answr for athe add employee]];
-  // 31 - 40 is more or less the same just the params might change
-  db.query(sql, params, (err, result) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: 'success',
-      data: body // this pases the info you are posting 
+      .then((answer) => {
+      const AddEmployeeAnswer = (answer) => {
+      const sql = `INSERT INTO employee e (e.first_name, e.last_name, e.role_id, e.manager_id) VALUES (?)`;
+      const params = [answer.first_name, answer.last_name, answer.role_id, answer.manager_id];
+      db.query(sql, params, (err, result) => {
+        if (err) { 
+          res.status(400).json({ error: err.message });
+            return;
+          }
+        console.table(rows);
+        init();
     });
+   }
   });
- 
-  }
+}
+    
 
-  // Up date Employee Role Function
+// Update EmployeeRole
   const UpdateEmployeeRole = () => {
-   
+    inquirer
+      .prompt([
+        {
+
+        }
+        ])
   }
 
-// Update View All Roles Function  
+// View All Roles Function  
 const ViewAllRoles = () => {
-
   const sql = `SELECT * FROM role`;
   db.query(sql, (err, rows) => {
     if (err) {
@@ -121,16 +138,15 @@ const ViewAllRoles = () => {
     console.table(rows);
     init();
 });
-
 }
 
 // Add Role Function
 const AddRole = () => {
-
 }
 
 // View All Departments Function
 const ViewAllDepartments = () => {
+
   const sql = `SELECT * FROM department`;
   db.query(sql, (err, rows) => {
     if (err) {
@@ -141,6 +157,7 @@ const ViewAllDepartments = () => {
     init();
 });
 }
+
 
 // Add Department Function
 const AddDepartment = () => {
