@@ -142,7 +142,40 @@ const ViewAllRoles = () => {
 
 // Add Role Function
 const AddRole = () => {
-}
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Please add the title of the role",
+          name: "title",
+        },
+        {
+          type: "input",
+          message: "Please add a salary",
+          name: "salary",
+        },
+        {
+        type: "list",
+        message: "Please add a department id",
+        // what to do if the department id is differnt from 01,02,03
+        name: "id",
+        },
+        ])
+        .then((answer) => {
+        const AddEmployeeAnswer = (answer) => {
+        const sql = `INSERT INTO department e (e.title, e.salary, e.id) VALUES (?)`;
+        const params = [answer.title, answer.salary, answer.id];
+        db.query(sql, params, (err, result) => {
+          if (err) { 
+            res.status(400).json({ error: err.message });
+              return;
+            }
+          console.table(rows);
+          init();
+      });
+     }
+    });
+  }
 
 // View All Departments Function
 const ViewAllDepartments = () => {
@@ -161,7 +194,30 @@ const ViewAllDepartments = () => {
 
 // Add Department Function
 const AddDepartment = () => {
+  inquirer
+    .prompt([
+      {
+          type: "input",
+          message: "Please add a department",
+          name: "name",
+      },
+      ])
+      .then((answer) => {
+      const AddEmployeeAnswer = (answer) => {
+      const sql = `INSERT INTO department e (e.name) VALUES (?)`;
+      const params = [answer.name];
+      db.query(sql, params, (err, result) => {
+        if (err) { 
+          res.status(400).json({ error: err.message });
+            return;
+          }
+        console.table(rows);
+        init();
+    });
+   }
+  });
 }
+
 
 // Function call to initialize app
 init();

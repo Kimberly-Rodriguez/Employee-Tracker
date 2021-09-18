@@ -24,11 +24,11 @@ INSERT INTO employee () VALUES;
 
 UPDATE role SET employee = ? WHERE id = ?;
 
-
-  -- -- OLD CODE
-  -- -- Query to Render all employee --
-  -- SELECT * FROM role;
-  -- SELECT * FROM employee;
+ 
+  -- Query to SELECT --
+  SELECT * FROM employee;
+  SELECT * FROM role;
+  SELECT * FROM department;
 
 
   -- -- Query to Insert --
