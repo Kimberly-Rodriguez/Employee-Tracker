@@ -156,6 +156,7 @@ const UpdateEmployeeRole = () => {
       };
       employees.push(object);
     }
+    
     const roleSql = "SELECT * FROM role";
     db.query(roleSql, (err, rows) => {
       if (err) throw err;
