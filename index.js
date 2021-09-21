@@ -18,7 +18,7 @@ const init = () => {
   inquirer
     .prompt([
       {
-        type: "list",
+        type: "rawlist",
         message: "What would you like to do?",
         choices: [
           "View All Employees",
@@ -28,7 +28,7 @@ const init = () => {
           "Add Role",
           "View All Departments",
           "Add Department",
-          "Exit"
+          "Exit",
         ],
         name: "choice",
       },
@@ -69,7 +69,8 @@ const ViewAllEmployees = () => {
   JOIN role r 
   ON r.id = e.role_id 
   JOIN department d
-  ON  d.id = r.department_id`;
+  ON d.id = r.department_id
+  ORDER BY e.id ASC`;
   db.query(sql, (err, rows) => {
     if (err) throw err;
     console.table(rows);
@@ -79,58 +80,121 @@ const ViewAllEmployees = () => {
 
 // AddEmployee Function
 const AddEmployee = () => {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: "Plase add employee's first name",
-        name: "first_name",
-      },
-      {
-        type: "input",
-        message: "Plase add employee's last name",
-        name: "last_name",
-      },
-      {
-        type: "list",
-        message: "Plase add employee's role id",
-        choices: ["1: Engineering", "2: Law", "3: Accounting"],
-        name: "role_id",
-      },
-      {
-        type: "input",
-        message: "Plase add manager id/name",
-        name: "manager_id",
-      },
-    ])
+  const roleSql = "SELECT * FROM role";
+  db.query(roleSql, (err, rows) => {
+    if (err) throw err;
+    const roles = [];
 
-    .then((answer) => {
-      const sql = `INSERT INTO employee e (e.first_name, e.last_name, e.role_id, e.manager_id) VALUES (?, ?, ?, ?)`;
-      const params = [
-        answer.first_name,
-        answer.last_name,
-        answer.role_id,
-        answer.manager_id,
-      ];
-      db.query(sql, params, (err, rows) => {
-        if (err) throw err;
-        init();
-      });
+    for (let i = 0; i < rows.length; i++) {
+      const object = { value: rows[i].id, name: rows[i].title };
+      roles.push(object);
+    }
+    const employeeSql = "SELECT * FROM employee";
+    db.query(employeeSql, (err, rows) => {
+      if (err) throw err;
+      const employees = [];
+
+      for (let i = 0; i < rows.length; i++) {
+        const object = {
+          value: rows[i].id,
+          name: `${rows[i].first_name} ${rows[i].last_name}`,
+        };
+        employees.push(object);
+      }
+
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            message: "Plase add employee's first name",
+            name: "first_name",
+          },
+          {
+            type: "input",
+            message: "Plase add employee's last name",
+            name: "last_name",
+          },
+          {
+            type: "rawlist",
+            message: "Plase add employee's role id",
+            choices: roles,
+            name: "role_id",
+          },
+          {
+            type: "rawlist",
+            message: "Plase add manager id/name",
+            name: "manager_id",
+            choices: employees,
+          },
+        ])
+        .then((answer) => {
+          const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+          const params = [
+            answer.first_name,
+            answer.last_name,
+            answer.role_id,
+            parseInt(answer.manager_id),
+          ];
+          db.query(sql, params, (err, rows) => {
+            if (err) throw err;
+            init();
+          });
+        });
     });
+  });
 };
 
-// Update EmployeeRole
 const UpdateEmployeeRole = () => {
-  inquirer.prompt([
-    {
-      type: "list",
-      message: "Plase select the employee that you wish to update",
-      choice:
-        "Sonia Sotomayor, Maria Hinojosa, Selena Quintanilla, Frida Kahlo, Celia Cruz",
-      name: "first_name",
-    },
-  ]);
-  // add if statment to add additional information?
+  const sql = `SELECT * FROM employee`;
+  let employees = [];
+
+  db.query(sql, (err, rows) => {
+    for (let i = 0; i < rows.length; i++) {
+      const object = {
+        value: rows[i].id,
+        name: `${rows[i].first_name} ${rows[i].last_name}`,
+      };
+      employees.push(object);
+    }
+    const roleSql = "SELECT * FROM role";
+    db.query(roleSql, (err, rows) => {
+      if (err) throw err;
+      const roles = [];
+
+      for (let i = 0; i < rows.length; i++) {
+        const object = { value: rows[i].id, name: rows[i].title };
+        roles.push(object);
+      }
+
+      inquirer
+        .prompt([
+          {
+            type: "rawlist",
+            choices: employees,
+            message: "Please select an Employee you wish to update.",
+            name: "id",
+          },
+          {
+            type: "list",
+            choices: roles,
+            message: "Please enter their new role: ",
+            name: "role_id",
+          },
+        ])
+        .then((answers) => {
+          let prompts = [answers.role_id, answers.id];
+
+          const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+
+          db.query(sql, prompts, (err, rows) => {
+            console.log("\n");
+            console.log(`Success! ${answers.newRole} Employee Role Updated`);
+            console.log("\n");
+            init();
+          });
+        });
+    });
+  });
 };
 
 // View All Roles Function
@@ -138,7 +202,8 @@ const ViewAllRoles = () => {
   const sql = `SELECT r.id, r.title, d.name, r.salary
   FROM role r 
   JOIN department  d
-  on r.department_id = d.id;`;
+  on r.department_id = d.id
+  ORDER BY r.id ASC`;
   db.query(sql, (err, rows) => {
     if (err) throw err;
     console.table(rows);
@@ -148,37 +213,50 @@ const ViewAllRoles = () => {
 
 // Add Role Function
 const AddRole = () => {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        message: "Please add the title of the role",
-        name: "title",
-      },
-      {
-        type: "input",
-        message: "Please add a salary",
-        name: "salary",
-      },
-      {
-        type: "input",
-        message: "Please add a department id",
-        name: "department_id",
-      },
-    ])
-    .then((answer) => {
-      const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
-      const params = [answer.title, answer.salary, answer.department_id];
-      db.query(sql, params, (err, rows) => {
-        if (err) throw err;
-        init();
+  const sql = `SELECT * FROM department `;
+  db.query(sql, (err, rows) => {
+    if (err) throw err;
+    const departments = [];
+
+    // start; end; incrementer
+    for (let i = 0; i < rows.length; i++) {
+      const obj = { value: rows[i].id, name: rows[i].name };
+      departments.push(obj);
+    }
+
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          message: "Please add the title of the role",
+          name: "title",
+        },
+        {
+          type: "input",
+          message: "Please add a salary",
+          name: "salary",
+        },
+        {
+          type: "rawlist",
+          message: "Please add a department",
+          name: "department_id",
+          choices: departments,
+        },
+      ])
+      .then((answer) => {
+        const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
+        const params = [answer.title, answer.salary, answer.department_id];
+        db.query(sql, params, (err, rows) => {
+          if (err) throw err;
+          init();
+        });
       });
-    });
+  });
 };
 
 // View All Departments Function
 const ViewAllDepartments = () => {
-  const sql = `SELECT * FROM department`;
+  const sql = `SELECT * FROM department ORDER BY id ASC`;
   db.query(sql, (err, rows) => {
     if (err) throw err;
     console.table(rows);
